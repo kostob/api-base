@@ -1,0 +1,37 @@
+security:
+    encoders:
+        App\Security\ApiUser:
+            algorithm: bcrypt
+
+    providers:
+        api_user_provider:
+            id: App\Security\ApiUserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        login:
+            pattern: ^/api/login
+            anonymous: true
+            stateless: true
+            lazy: true
+            json_login:
+                check_path: /api/login
+                success_handler: App\Security\LoginSuccessHandler
+                failure_handler: App\Security\LoginFailureHandler
+        admin_api:
+            pattern: ^/api/admin
+            anonymous: true
+            stateless: true
+            lazy: true
+            guard:
+                authenticators:
+                    - App\Security\ApiUserAuthenticator
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/api/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

@@ -1,0 +1,12 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+login:
+    path: /api/login
+    methods: [POST]
+
+protected_example:
+    path: /api/admin/example
+    controller: App\Controller\ExampleController::example
+    methods: [GET]
